@@ -1,0 +1,45 @@
+*** Settings ***
+Library    SeleniumLibrary
+
+*** Variables ***
+
+${BROWSER}       Chrome
+${URL}           https://dineshvelhal.github.io/testautomation-playground/login.html
+${email}         admin
+${pass}          admin
+
+*** Test Cases ***
+#Business test cases
+Order 5 Pizza's Online
+
+#Child test Cases
+Open website
+Login
+Select Medium size pizza, veggie delight flavour,Buffalo Sauce And GreenOlive+Tomatoes Toppings
+Verify Success Message
+Print Success Messages
+
+*** Test Cases ***
+Website automation
+    Open Browser    ${URL}  ${BROWSER}
+    Maximize Browser Window
+    Input Text    id=user    ${email}
+    Input Text    id=password    ${pass}
+    Click Button    xpath://button[@id='login']
+    Wait Until Element Is Visible   css:h3
+#select Medium pizza
+    Click Element    id=rad_medium
+#select flavour
+    Select From List By Label    id:select_flavor    Veggie Delight
+    Click Element    id=rad_buffalo
+    Click Element    id=green_olive
+    sleep    10s
+#Set the Quantity to 5 and add to cart
+    Click Element    id=quantity
+    Input Text    id=quantity    5
+    Click Element    id=submit_button
+# Verify Success message
+    Wait Until Element Is Visible    id=added_message
+    Element Text Should Be    id=added_message    Pizza added to the cart!
+    Sleep    10s
+
